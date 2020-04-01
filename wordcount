@@ -1,0 +1,120 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int Num_Char(char *f)
+{
+	int sum=0;
+	char a;
+	FILE *p;
+	p=fopen(f,"r");
+	if(p==NULL)
+	{
+		printf("无法打开");
+		return 0;
+	}
+	while((a=fgetc(p))!=EOF)
+	{
+		if(a!=' '||a!='\n'||a!='\t')
+			sum++;
+	}
+	fclose(p);
+	return sum;
+}
+
+int Num_Word(char *f)
+{
+	int sum=0;
+	char a,b;
+	FILE *fp;
+	fp=fopen(f,"r");
+	if(fp==NULL)
+	{
+		printf("无法打开");
+		return 0;
+	}
+	if((a=fgetc(fp))==EOF)
+		return 0;
+	while((a=fgetc(fp))!=EOF)
+	{
+		if(a==' '||a=='\n'||a=='\t')
+			sum++;
+		b=a;
+	}
+	fclose(fp);
+	if(b==' '||b=='\n'||b=='\t')
+		return sum;//文件末尾没有' '、'\n'、'\t'
+	if(b!=' '||b!='\n'||b!='\t')
+		return sum+1;//文件末尾没有' '、'\n'、'\t'
+
+}
+
+int Num_Line(char *f)
+{
+	int sum=0;
+	char a,b;
+	FILE *fp;
+	fp=fopen(f,"r");
+	if(fp==NULL)
+	{
+		printf("无法打开");
+		return 0;
+	}
+	if((a=fgetc(fp))==EOF)
+		return 0;
+	while((a=fgetc(fp))!=EOF)
+	{
+		if(a=='\n')
+			sum++;
+		b=a;
+	}
+	fclose(fp);
+	if(b!='\n')
+		return sum+1;
+	else
+		return sum;
+}
+
+int main()
+{
+    char *f[50];
+    char a;
+    printf("输入c    返回字符数\n");
+    printf("输入w    返回单词数\n");
+    printf("输入l    返回行数\n");
+    while(scanf(" %c",&a))
+    {
+    printf("\n");
+    switch(a)
+    {
+    case 'c':
+    	{
+        printf("\n文件名：");
+        scanf("%s", &f);
+        printf("%d \n\n",Num_Char(f));
+        break;
+        }
+    case 'w':
+    	{
+        printf("\n文件名：");
+        scanf("%s", &f);
+        printf("%d \n\n",Num_Word(f));
+        break;
+        }
+    case 'l':
+    	{
+        printf("\n文件名：");
+        scanf("%s", &f);
+        printf("%d \n\n",Num_Line(f));
+        break;
+        }
+
+    default:
+        printf("重新输入\n");
+    }
+
+ }
+
+    return 0;
+
+}
+
